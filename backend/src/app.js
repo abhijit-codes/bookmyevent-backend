@@ -14,13 +14,26 @@ import routes from "./routes/index.js"
 
 const app = express()
 const backendRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
+const vercelPreviewPattern = /^https:\/\/book-my-event-vite-[a-z0-9-]+-abhijit-codes-projects\.vercel\.app$/
+const corsOptions = {
+  origin: (origin, callback) => {
+    if (!origin || config.clientUrls.includes(origin) || vercelPreviewPattern.test(origin)) {
+      callback(null, true)
+      return
+    }
+
+    callback(new Error(`CORS blocked origin: ${origin}`))
+  },
+  credentials: true,
+}
 
 app.use(
   helmet({
     crossOriginResourcePolicy: { policy: "cross-origin" },
   }),
 )
-app.use(cors({ origin: config.clientUrl, credentials: true }))
+app.use(cors(corsOptions))
+app.options(/.*/, cors(corsOptions))
 app.use(compression())
 app.use(express.json({ limit: "2mb" }))
 app.use(express.urlencoded({ extended: true }))

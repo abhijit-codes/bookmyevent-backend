@@ -17,6 +17,8 @@ services:
         value: production
       - key: CLIENT_URL
         value: https://book-my-event-vite.vercel.app
+      - key: CLIENT_URLS
+        value: https://book-my-event-vite.vercel.app
       - key: SYNC_DB
         value: true
       - key: SEED_DB

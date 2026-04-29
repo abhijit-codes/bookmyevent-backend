@@ -8,6 +8,10 @@ export const config = {
   nodeEnv: process.env.NODE_ENV ?? "development",
   port: Number(process.env.PORT ?? 5000),
   clientUrl: process.env.CLIENT_URL ?? "http://localhost:5173",
+  clientUrls: (process.env.CLIENT_URLS ?? process.env.CLIENT_URL ?? "http://localhost:5173")
+    .split(",")
+    .map((url) => url.trim())
+    .filter(Boolean),
   syncDb: process.env.SYNC_DB === "true",
   seedDb: process.env.SEED_DB === "true",
   db: {
